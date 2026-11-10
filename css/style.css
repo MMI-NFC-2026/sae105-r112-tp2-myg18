@@ -4,3 +4,39 @@
     height: 100%;
     border : 0;
 }
+
+
+
+html:has(.menu:popover-open) {
+    overflow: hidden;
+}
+
+
+
+.burger {
+    cursor: pointer;
+}
+
+
+
+.menu {
+    /* 400ms : le menu apparaît et disparaît doucement (en 0,4 seconde) au lieu d'un coup */
+    /* allow-discrete : sans ça, quand on ferme le menu, il disparaît d'un coup */
+    transition: 400ms allow-discrete;
+
+    /* menu fermé = invisible */
+    opacity : 0;
+}
+
+/* menu ouvert = visible */
+.menu:popover-open {
+  opacity: 1;
+}
+
+/* sans ça, quand on ouvre le menu, il apparaît d'un coup */
+/* ça dit au menu de commencer invisible pour pouvoir apparaître doucement */
+@starting-style {
+  .menu:popover-open {
+    opacity: 0;
+  }
+}
