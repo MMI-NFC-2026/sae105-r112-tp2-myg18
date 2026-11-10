@@ -12,11 +12,28 @@
   <header class="header header--home">
 
     <!-- Menu principal -->
+
+    <!-- Ouvrir le menu depuis le bouton :
+         popovertarget="menu" relie ce bouton au popover qui a l'id "menu".
+         Un clic l'ouvre, un 2e clic le ferme, et le navigateur gère tout seul
+         la fermeture avec Échap ou un clic en dehors : pas besoin de JavaScript. -->
     <button class="burger" type="button" popovertarget="menu" aria-label="Menu">
       🍔
     </button>
 
+    <!-- Déclarer le menu comme popover :
+         - popover : le navigateur cache le menu tant qu'on ne l'ouvre pas
+           (avant, la nav s'affichait en permanence sous le bouton).
+         - id="menu" : identifiant unique, c'est grâce à lui que les boutons
+           savent quel élément ouvrir ou fermer. -->
     <nav class="menu" id="menu" popover aria-label="Main menu">
+
+      <!-- Un bouton de fermeture explicite :
+           popovertarget="menu" le relie au même menu, et popovertargetaction="hide"
+           fait qu'il ne peut que le fermer (contrairement au 1er bouton qui ouvre/ferme).
+           Focus pour l'accessibilité :
+           autofocus place le focus sur ce bouton dès que le menu s'ouvre,
+           donc on peut refermer le menu au clavier avec Entrée, sans souris. -->
       <button class="menu__close burger burger--close" type="button" popovertarget="menu" popovertargetaction="hide" aria-label="Close the menu" autofocus>
         🍔
       </button>

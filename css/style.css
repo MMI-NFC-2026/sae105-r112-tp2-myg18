@@ -1,40 +1,62 @@
 /* code css à faire */
+
+/* --- Le menu plein écran ---
+   Le sélecteur .menu cible les éléments qui ont class="menu" dans l'HTML (ici la <nav>).
+   Le navigateur a déjà fixé le popover à l'écran (position: fixed; inset: 0),
+   donc pas besoin de le positionner : on l'étire juste pour qu'il couvre tout l'écran. */
 .menu {
-    width: 100%;
-    height: 100%;
-    border : 0;
+    width: 100%;   /* largeur : 100% du parent */
+    height: 100%;  /* hauteur : 100% du parent */
+    border : 0;    /* pas de bord (épaisseur 0) */
 }
 
 
 
+/* --- Figer la page en arrière-plan ---
+   html est la racine du document. :has() permet de tester un élément enfant :
+   la règle s'applique à html seulement s'il contient un .menu ouvert (:popover-open).
+   C'est le seul moyen en CSS de faire "remonter" l'état du menu jusqu'à la page.
+   Pourquoi : si le document était plus grand que l'écran, on pourrait scroller
+   la page derrière le menu même s'il couvre tout. overflow: hidden bloque ce scroll
+   pendant que le menu est ouvert. */
 html:has(.menu:popover-open) {
     overflow: hidden;
 }
 
 
 
+/* --- Le curseur sur le bouton ---
+   La propriété cursor change l'apparence du curseur : pointer montre
+   à l'utilisateur que le bouton burger est cliquable. */
 .burger {
     cursor: pointer;
 }
 
 
 
+/* --- Le fondu du menu --- */
 .menu {
-    /* 400ms : le menu apparaît et disparaît doucement (en 0,4 seconde) au lieu d'un coup */
-    /* allow-discrete : sans ça, quand on ferme le menu, il disparaît d'un coup */
+    /* Transition de 400ms : le menu apparaît/disparaît progressivement.
+       allow-discrete : la transition s'applique aussi aux propriétés "discrètes",
+       qui n'ont pas de valeurs intermédiaires (ex : display passe de none à block d'un coup).
+       Sans ça, à la fermeture, le menu passerait en display: none tout de suite
+       et on ne verrait pas le fondu. */
     transition: 400ms allow-discrete;
 
-    /* menu fermé = invisible */
+    /* On part d'une opacité à 0 : menu fermé = transparent */
     opacity : 0;
 }
 
-/* menu ouvert = visible */
+/* Quand le popover est ouvert (:popover-open), l'opacité passe à 1.
+   Grâce à la transition, elle monte progressivement de 0 à 1. */
 .menu:popover-open {
   opacity: 1;
 }
 
-/* sans ça, quand on ouvre le menu, il apparaît d'un coup */
-/* ça dit au menu de commencer invisible pour pouvoir apparaître doucement */
+/* @starting-style donne le style de départ au moment où le menu s'affiche.
+   Problème : avant l'ouverture, le menu était en display: none (non affiché),
+   donc en principe il n'y a pas d'animation possible.
+   Ici on dit "commence à opacité 0", ce qui permet d'animer jusqu'à 1. */
 @starting-style {
   .menu:popover-open {
     opacity: 0;
@@ -43,12 +65,19 @@ html:has(.menu:popover-open) {
 
 
 
+/* --- Rotation du bouton de fermeture ---
+   Même démarche que pour le fondu, mais sur le bouton .burger--close.
+   Sélecteur imbriqué (parent espace enfant) : on cible le .burger--close
+   qui se trouve dans le .menu, seulement quand le menu est ouvert. */
+
+/* À l'ouverture, le bouton démarre dans la même position que le hamburger (pas tourné) */
 @starting-style {
   .menu:popover-open .burger--close {
     transform: none;
   }
 }
 
+/* Puis il tourne de 90° en 400ms */
 .menu:popover-open .burger--close {
   transform: rotate(90deg);
   transition: 400ms;
@@ -56,6 +85,11 @@ html:has(.menu:popover-open) {
 
 
 
+/* --- Respecter les préférences de mouvement ---
+   Cette media query ne s'applique que si l'utilisateur a demandé
+   à réduire les animations (réglage du système).
+   La virgule regroupe deux sélecteurs pour la même règle :
+   on enlève la transition du menu (fondu) et du bouton (rotation). */
 @media (prefers-reduced-motion: reduce) {
   .menu,
   .menu .burger--close {
