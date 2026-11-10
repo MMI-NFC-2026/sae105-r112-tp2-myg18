@@ -197,4 +197,9 @@ Ajouter à votre code des commentaires reprenant les explications données dans 
 Recherchez sur le site https://developer.mozilla.org/fr/ les pages de documentation de ce qui a été utilisé dans ce TP :
 
 - `popover` : https://developer.mozilla.org/fr/docs/Web/HTML/Reference/Global_attributes/popover
-- ...
+- `overflow` : https://developer.mozilla.org/fr/docs/Web/CSS/Reference/Properties/overflow
+- `transition` : https://developer.mozilla.org/fr/docs/Web/CSS/Reference/Properties/transition
+- `@starting-style` : https://developer.mozilla.org/fr/docs/Web/CSS/Reference/At-rules/@starting-style
+- `transform` : https://developer.mozilla.org/fr/docs/Web/CSS/Reference/Properties/transform
+- `@media` : https://developer.mozilla.org/fr/docs/Web/CSS/Reference/At-rules/@media
+- `prefers-reduced-motion` : https://developer.mozilla.org/fr/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-motion
